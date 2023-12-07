@@ -27,13 +27,17 @@ def voice2AI():
             }
             ],
             model="gpt-3.5-turbo",
+            stream=True
                 )
         text2Voice("Time over, thanks")
         try:
             text2Voice("Here is what I found")
-            # Request takes ~20secs to generate
-            print(chat_completion.choices[0].message.content)
-            text2Voice(chat_completion.choices[0].message.content)
+            generatedContent = ''
+            for chunk in chat_completion:
+                if chunk.choices[0].delta.content is not None:
+                    generatedContent += chunk.choices[0].delta.content
+                    print(chunk.choices[0].delta.content, end="")
+            text2Voice(generatedContent)
         except:
             text2Voice("Sorry, I did not get that")
 
