@@ -41,7 +41,7 @@ def voice2AI():
             for chunk in chat_completion:
                 if chunk.choices[0].delta.content is not None:
                     generatedContent += chunk.choices[0].delta.content
-                    print(chunk.choices[0].delta.content, end="")
+                    print(chunk.choices[0].delta.content, end="", flush=True)
                     
             text2Voice(generatedContent)
             
